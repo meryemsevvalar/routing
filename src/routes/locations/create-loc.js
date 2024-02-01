@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const Location = require('../../models/locations');
 
-const isValidLatitude = require('../../validations/isValidLatitude');
-const isValidLongitude = require('../../validations/isValidLongitude');
-const isValidHexColor = require('../../validations/isValidHexColor')
+const isValidLatitude = require('../../utils/validations/isValidLatitude');
+const isValidLongitude = require('../../utils/validations/isValidLongitude');
+const isValidHexColor = require('../../utils/validations/isValidHexColor')
 
 router.post('/location', isValidLatitude, isValidLongitude, isValidHexColor, async (req, res) => {
   try {

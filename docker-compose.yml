@@ -13,12 +13,9 @@ services:
         - ./mongodb_server_data:/data/db         
         - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
         
-      
   routing-service:    
     container_name: routing-service    
     build:      
       context: ./
     ports: 
         - "3002:3003"
-
-          

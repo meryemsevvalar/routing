@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const Location = require('../../models/locations');
 
-const isValidLatitude = require('../../validations/isValidLatitude');
-const isValidLongitude = require('../../validations/isValidLongitude');
+const isValidLatitude = require('../../utils/validations/isValidLatitude');
+const isValidLongitude = require('../../utils/validations/isValidLongitude');
+const limit = require('../../utils/limiting/limit')
 
-router.post('/calculate-rotation', isValidLatitude, isValidLongitude, async (req, res) => {
+router.post('/calculate-rotation', isValidLatitude, isValidLongitude, limit, async (req, res) => {
   try {
     const { latitude, longitude } = req.body;
 
@@ -35,7 +36,7 @@ router.post('/calculate-rotation', isValidLatitude, isValidLongitude, async (req
     ]);
 
     if (!closestLocations || closestLocations.length === 0) {
-      return res.status(404).json({ message: "Yakın konum bulunamadı." });
+      return res.status(404).json({ message: "No locations." });
     }
 
     
@@ -43,10 +44,10 @@ router.post('/calculate-rotation', isValidLatitude, isValidLongitude, async (req
       location.step = index;
     });
 
-    res.json({ message: "Konumlar başarıyla sıralandı.", closestLocations });
+    res.json({ message: "Locations listed successfully.", closestLocations });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Konumlar sıralanırken bir hata oluştu.", error: err.message });
+    res.status(500).json({ message: "An error occured while listing locations.", error: err.message });
   }
 });
 

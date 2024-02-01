@@ -8,17 +8,16 @@ const locationSchema = new mongoose.Schema({
   location: {
     type: {
       type: String,
-      enum: ['Point'], // Sadece 'Point' türünü kabul ediyoruz
+      enum: ['Point'], 
       required: true
     },
     coordinates: {
-      type: [Number], // Koordinatları bir dizi olarak tutuyoruz [longitude, latitude]
+      type: [Number], 
       required: true
     }
   }
-});
+}, { timestamps: true});
 
-// 2dsphere indeksi oluştur
 locationSchema.index({ location: '2dsphere' });
 
 const Location = mongoose.model('Location', locationSchema);
